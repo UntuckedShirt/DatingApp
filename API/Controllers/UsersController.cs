@@ -12,9 +12,14 @@ namespace API.Controllers
     // controllers beed attributes
     // Route in this case start with api then controller
     // place holder use api/users
-    [ApiController]
-    [Route("api/[controller]")]
-    public class UsersController : ControllerBase
+    // [ApiController]
+    // [Route("api/[controller]")]
+    // we need not derive from ControllerBase. We now 
+    // can derive from BaseApiController due to 
+    //everything. The attributes 
+    // on line 15 and 16 being inherited in the 
+    // BaseApiController
+    public class UsersController : BaseApiController
     {
         private readonly DataContext _context;
         public UsersController(DataContext context)
