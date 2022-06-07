@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using API.Data;
 using API.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -30,6 +31,10 @@ namespace API.Controllers
     // use an httpget to get users
     // in Action Result we wanna return users
     [HttpGet]
+    // [AllowAnonymous]lets users who have not been authenticated 
+    // access the action or controller. In short, it knows based 
+    // on the token it receives from the client
+    [AllowAnonymous]
     // we want to specify a type of thing that being users
     // IEnumerable need system.collections.generic
     // appusers needs entities API to make use of appuser class
@@ -45,6 +50,13 @@ namespace API.Controllers
             return await _context.Users.ToListAsync();
 
         }
+    // this adds an authorization attribute that protectd 
+    // authentization
+
+    [Authorize]
+
+
+
     // below specifies a route param. When someone hits this endpoint
     // they are saying api/users/3. When user or client hits this endpoint
     // itll be fetching from the database

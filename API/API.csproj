@@ -7,12 +7,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Authorization" Version="6.0.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.5">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.5" />
+    <PackageReference Include="Microsoft.VisualStudio.Language.Intellisense" Version="17.2.3194" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+    <!-- below supports creating, serializing and validating JSON WebTokens -->
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.18.0" />
   </ItemGroup>
 
 </Project>

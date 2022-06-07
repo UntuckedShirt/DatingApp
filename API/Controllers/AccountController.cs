@@ -1,3 +1,4 @@
+using System.Net.Mime;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,16 +10,22 @@ using API.DTOs;
 using API.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using API.Interfaces;
 
+// this controller will handle tokens
 namespace API.Controllers
 {
     public class AccountController : BaseApiController
     {
         // constructor
         private readonly DataContext _context;
-        public AccountController(DataContext context)
+
+        private readonly ITokenService _tokenService;
+
+        public AccountController(DataContext context, ITokenService tokenService)
         {
             _context = context;
+            _tokenService = tokenService;
         }
         // allows method creation
         [HttpPost("register")]
@@ -30,7 +37,11 @@ namespace API.Controllers
         // ApiController atribute its no necessary
         // the api controller is smdart enough to figure 
         // out where the info is coming from
-        public async Task<ActionResult<AppUser>> Register(RegisterDto registerDto)
+
+        // you need to replace what user is returning. You need
+        // to replace what was once <AppUser> and turn it the 
+        // <UserDto>. DTO meaning (Data Transfer Object)
+        public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
         {
             // this using statement of HMACHA512 below helps 
             // with the hashing by providing and algorithm
@@ -43,7 +54,7 @@ namespace API.Controllers
 
             // we get access to the list property or 
             // obj because we use an ActionResult
-            // this iswhere we check to see matching username
+            // this is where we check to see matching username
             if (await UserExists(registerDto.UserName)) return BadRequest("username is taken");
 
             using var hmac = new HMACSHA512();
@@ -60,14 +71,23 @@ namespace API.Controllers
             // all this allows the Register method
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
+            // user needs to be converted to UserDto. user is 
+            // returning AppUser which we changed. We must make 
+            // it a new UserDto
 
-            return user;
+            return new UserDto
+            {
+                username = user.UserName,
+                Token = _tokenService.CreateToken(user)
+            };
         }
 
         // this will be where we create a login
         [HttpPost("login")]
 
-        public async Task<ActionResult<AppUser>> Login(LoginDto loginDto)
+        // update all return types to <UserDto>>
+
+        public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
         {
             // this gets user from the database
             // SingleOrDefault returns the only element of a 
@@ -91,7 +111,11 @@ namespace API.Controllers
                 if(computedHash[i] != user.PasswordHash[i]) return Unauthorized("Invalid Password");
             }
 
-            return user;
+             return new UserDto
+            {
+                username = user.UserName,
+                Token = _tokenService.CreateToken(user)
+            };
         }
 
         private async Task<bool> UserExists(string username)
