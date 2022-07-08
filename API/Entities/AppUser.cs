@@ -18,6 +18,7 @@ namespace API.Entities
         // class. Private means its only accessible
         // from the class in itself
         public string UserName { get; set; }
+        
         // helps in creation of salted passwords
         public byte[] PasswordHash{ get; set; }
 

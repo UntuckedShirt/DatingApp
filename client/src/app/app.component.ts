@@ -1,11 +1,17 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { BsDropdownConfig } from 'ngx-bootstrap/dropdown';
+import { User } from './_models/user';
+import { AccountService } from './_services/account.service';
 
 // below is a decorator
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
+// this helps animate the dropdown box. See related dropdown 
+// commands in your nav.comp.html
+  providers: [{ provide: BsDropdownConfig, useValue: { isAnimated: true, autoClose: true } }]
 })
   
   // HttpClient performs http requests and is an 
@@ -19,13 +25,23 @@ export class AppComponent implements OnInit{
 
   users: any;
 
-  constructor(private http: HttpClient)
+  constructor(private http: HttpClient, private accountService: AccountService)
   {
 
 
   }
+  // we now call the method setCurrentUser inside here
   ngOnInit() {
     this.getUsers();
+    this.setCurrentUser();
+  }
+  // here we set a user and set it to a type of User
+  // since we stringyfied the obj inside local storage we
+  // use JSON.parse
+  setCurrentUser()
+  {
+    const user: User = JSON.parse(localStorage.getItem('user'));
+    this.accountService.setCurrentUser(user)
   }
 
   getUsers() {

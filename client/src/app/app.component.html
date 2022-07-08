@@ -1,11 +1,17 @@
 <!-- below is an interpolation from the .tscomponent -->
-<h1>{{title}}</h1>
+
+<!-- the title tag will be replaced with the app nav-->
+
+<app-nav></app-nav>
 <!-- we want to loop through each user to diaplay details in list items -->
 <!-- when looping in angular you want to use a structural derective ex. ngFor-->
 <!-- *ngFor goes inside the closing angle bracket
 you then need to use interpolation-->
 <!-- angular is case sensitive. Make sure you follow the rules of convention-->
-<ul>
-    <li *ngFor='let user of users'>{{user.id}} - 
-    {{user.userName}}</li>
-</ul>
+<div class="container" style="margin-top: 100px">
+    <ul>
+        <li *ngFor='let user of users'>{{user.id}} - 
+        {{user.userName}}</li>
+    </ul>
+
+</div>

@@ -1,0 +1,63 @@
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+   <div class="container">
+    <a class="navbar-brand" href="#">Spark</a>
+    <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button> -->
+    <!-- <div class="collapse navbar-collapse" id="navbarCollapse"> -->
+      <!--we only want to show linked if the user is logged in-->
+      <ul class="navbar-nav mr-auto" *ngIf="loggedIn">
+        <li class="nav-item">
+          <a class="nav-link" href="#">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Lists</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Messages</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#">Matches</a>
+        </li>
+        <!-- <li class="nav-item">
+          <a class="nav-link" (click)="logout()"href="#">Logout</a>
+      </li> -->
+      </ul>
+
+
+      <div class="dropdown" *ngIf="loggedIn" dropdown>
+        <a class="dropdown-toggle text-light" dropdownToggle>Welcome to Spark</a>
+        <div class="dropdown-menu mt-3" *dropdownMenu>
+          <a class="dropdown-item">Edit Profile</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item"(click)="logout()">Logout</a>
+        </div>
+      </div>
+
+      <!-- we need to tell the form element itll be and angular form we give it a template ref variable which would be a hash(#) we give the form a name and set it to ngForm. this makes it an angular form. We also get a method called ngSubmit we use to submit the data which we set equal to the login method created within the component-->
+
+      <form *ngIf="!loggedIn" #loginForm = "ngForm" class="form-inline mt-2 mt-md-0"(ngSubmit)="login()" autocomplete="off">
+
+          <!-- when we want to use 2 way binding is we need ot give input a name and the property wanted to be tracked-->
+          <!--using the snippet a-ngm gives us a structure for 2 way binding. This model is ref to as a banana in a squarebracket and parenthesis-->
+          <!--square backet used for receiving from component and the () are used when data foes the other way. Having both of these is what represents 2way binding-->
+          
+        <input 
+            name="username"
+            [(ngModel)]="model.username"
+            class="form-control mr-sm-2" 
+            type="text" 
+            placeholder="UserName">
+        <input 
+            name="password"
+            [(ngModel)]="model.password"
+            class="form-control mr-sm-2" 
+            type="password" 
+            placeholder="Password">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Login</button>
+      </form>
+    </div>
+
+   <!-- </div> -->
+    
+  </nav>
